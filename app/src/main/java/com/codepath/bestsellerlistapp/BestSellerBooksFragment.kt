@@ -14,7 +14,11 @@ import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.codepath.bestsellerlistapp.R
+import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
 import okhttp3.Headers
+import org.json.JSONObject
 
 // --------------------------------//
 // CHANGE THIS TO BE YOUR API KEY  //
@@ -30,6 +34,11 @@ class BestSellerBooksFragment : Fragment(), OnListFragmentInteractionListener {
     /*
      * Constructing the view
      */
+    @SerializedName("book_image")
+    var bookImageUrl: String? = null
+
+    @SerializedName("description")
+    var description: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,9 +83,20 @@ class BestSellerBooksFragment : Fragment(), OnListFragmentInteractionListener {
                 progressBar.hide()
 
                 //TODO - Parse JSON into Models
+                val resultsJSON : JSONObject = json.jsonObject.get("results") as JSONObject
+                val booksRawJSON : String = resultsJSON.get("books").toString()
 
-                val models : List<BestSellerBook> = null // Fix me!
+                val gson = Gson()
+                val arrayBookType = object : TypeToken<List<BestSellerBook>>() {}.type
+
+
+
+
+                val models : List<BestSellerBook> = gson.fromJson(booksRawJSON, arrayBookType) // Fix me!
+
+
                 recyclerView.adapter = BestSellerBooksRecyclerViewAdapter(models, this@BestSellerBooksFragment)
+
 
                 // Look for this in Logcat:
                 Log.d("BestSellerBooksFragment", "response successful")
@@ -101,7 +121,7 @@ class BestSellerBooksFragment : Fragment(), OnListFragmentInteractionListener {
                 }
             }
         }]
-        */
+
 
     }
 
