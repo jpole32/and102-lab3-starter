@@ -34,11 +34,7 @@ class BestSellerBooksFragment : Fragment(), OnListFragmentInteractionListener {
     /*
      * Constructing the view
      */
-    @SerializedName("book_image")
-    var bookImageUrl: String? = null
 
-    @SerializedName("description")
-    var description: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
